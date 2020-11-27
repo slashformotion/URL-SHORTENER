@@ -1,0 +1,75 @@
+{% extends 'general/base.html' %}
+
+
+{% block head %}
+<script src="https://d3js.org/d3.v6.min.js"></script>
+
+{% endblock head %}
+
+{% block tab_title %}
+Link {{ link.name }}
+{% endblock tab_title %}
+
+{% block main %}
+<section class="section">
+    <h1 class='title'>
+        {{ link.name }}
+    </h1>
+    <p id='link_id' style="display: hidden;">
+        {{link.id}}
+    </p>
+    <h2 class='subtitle'>
+        Redirect to : {{ link.base }}
+    </h2>
+</section>
+<section class='section'>
+    <!-- <canvas  width="400" height="400"></canvas> -->
+    <div id="myChart"></div>
+</section>
+
+
+
+<script>
+
+
+
+    $("document").ready(function () {
+        let dict = {
+            id: $('#link_id').html().trim()
+        }
+        console.log(dict);
+
+
+
+        console.log(window.chart);
+        $.ajax({
+            type: "POST",
+            url: "/api/link-infos",
+            data: JSON.stringify(dict),
+            contentType: "application/json",
+        }).done(function (data) {
+            var char_data = [{
+                x: data.hits[0],
+                y: data.hits[1],
+                mode: 'lines+markers'
+            }];
+            console.log(char_data);
+
+            var layout = {
+                title: 'Hits by days',
+                xaxis: {
+                    title: 'Date'
+                },
+                yaxis: {
+                    title: 'Number of hits'
+                }
+            };
+
+            Plotly.newPlot('myChart', char_data, layout);
+        });
+
+
+    });
+
+</script>
+{% endblock main %}

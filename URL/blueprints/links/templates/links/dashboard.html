@@ -1,0 +1,165 @@
+{% extends 'general/base.html' %}
+
+
+{% block tab_title %}
+dashboard
+{% endblock tab_title %}
+
+
+{% block main %}
+<section class='section pb-1' id='top_dashboard'>
+    <nav class='level'>
+        <div class="level-left">
+            <div class="level-item has-text-centered">
+                <div class="box">
+                    <div>
+                        <p class="title">Welcome here {{ current_user.name.title() }}!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="level-item has-text-centered">
+                <div class="mr-5">
+                    <p class="heading">Links</p>
+                    <p class="title">{{ current_user.links|length }}</p>
+                </div>
+                <div>
+                    <p class="heading">Collections</p>
+                    <p class="title">{{ current_user.collections|length }}</p>
+                </div>
+            </div>
+
+        <div class="level-right">
+            <div class="buttons">
+                <a href="{{ url_for('.create') }}" class='button is-link is-rounded'>Create link</a>
+
+            </div>
+        </div>
+    </nav>
+</section>
+<section class='section' id='body_dashboard'>
+    <div class="columns">
+        <div class="column is-one-fifth">
+            <aside class="menu">
+                <p class="menu-label">
+                    Collections
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a href='{{ url_for('.dashboard', collection=1) }}' class='is-active'>All</a>
+
+                    </li>
+                    {% for collection in current_user.collections %}
+                    <li>
+                        <a href='{{ url_for('.dashboard', collection=collection.id) }}'>{{collection.name.title()}}</a>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+                <div class="container">
+                    <a href="{{ url_for('collections.create') }}" class='button is-rounded'
+                        style='align-items: center;'>
+                        <span class='icon is-large mr-3'>
+                            <ion-icon name="add-circle-sharp"></ion-icon>
+                        </span>
+                        Create Category
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </div>
+        <div class="column ">
+            <table class="table is-fullwidth is-striped">
+                <thead>
+                    <tr>
+                        <th><abbr title="Name">Name</abbr></th>
+                        <th><abbr title="Original">Original</abbr></th>
+
+
+                        <th><abbr title="Date of creation">Date</abbr></th>
+                        <th><abbr title="Collections">Collections</abbr></th>
+                        <th><abbr title="Hits">Hits</abbr></th>
+                        <th></th> {# btn to copy nam #}
+                        <th></th> {# btn to see link page (hits ect) #}
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% for link in links %}
+                    {% if link.collection.id==collection_id_selected or collection_id_selected==1 %}
+
+                    <tr id_link="{{ link.id }}">
+                        <td>
+                            {{ link.name }}
+                        </td>
+                        <td>
+                            {{ link.base }}
+                        </td>
+                        <td>
+                            {{ link.print_date() }}
+                        </td>
+                        <td>
+                            {% if link.collection==[] %}
+                            Empty
+                            {% else %}
+                            {{ link.collection.name.title() }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ link.hits|length }}
+                        </td>
+                        <td>
+                            <a class='button' title='Copy to clipboard'>
+                                <span class='icon'>
+                                    <ion-icon name="copy-outline"></ion-icon>
+                                </span>
+                                <p>Share link</p>
+
+                            </a>
+                            <p id='hidden-link-id' style="visibility:hidden;">{{ link.id }}</p>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('links.infos', id=link.id) }}" class='button'>See more</a>
+                        </td>
+
+                    </tr>
+
+
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+
+
+    $("a[title='Copy to clipboard']").click(function (e) {
+        e.preventDefault();
+        var dict = {
+            id: $(this).next().text().trim()
+        };
+        console.log(dict)
+        $.ajax({
+            type: "POST",
+            url: "/api/url-shorten",
+            data: JSON.stringify(dict),
+            contentType: "application/json",
+        }).done(function (data) {
+            console.log(data);
+            copyToClipboard(data.url);
+        })
+
+    });
+
+
+
+
+</script>
+{% endblock main %}

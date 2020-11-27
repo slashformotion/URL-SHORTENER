@@ -1,0 +1,27 @@
+html,body {
+    font-family: 'Questrial', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.hr-black{
+    border-bottom: 1px solid black;
+}
+
+.hero {
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.9),
+        rgba(0, 0, 0, 0.9)
+    ), url('/static/general/img/bg-log.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.title{
+    color: rgba(0, 0, 0, 0.9) !important; 
+}
+
+
+

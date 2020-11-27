@@ -1,0 +1,70 @@
+{% extends 'general/base.html' %}
+
+
+
+{% block tab_title %}
+Sign-in
+{% endblock tab_title %}
+
+{% set navbar_deactivated = True %}
+
+{% block main %}
+<div class="hero is-warning is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns">
+                <div class="column is-4 is-offset-4">
+                    <div class="box">
+
+                        <h1 class="title mt-2">Sign-In</h1>
+                        <hr class='hr-black'>
+                        <h2 class='subtitle'>Please sign-in to proceed.</h2>
+                        <form method="post">
+                            <div class="field">
+                                <div class="control">
+                                    {% if form.errors %}
+                                    <ul class="errors">
+                                        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                                        {% for error in field_errors %}
+                                        <li>{{ form[field_name].label }}: {{ error }}</li>
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {{ form.csrf_token }}
+
+
+                            <div class="field">
+                                <div class="control">
+
+                                    
+                                    {{ form.email(class="input is-medium", placeholder="Your Email") }}
+                                </div>
+
+                            </div>
+                            <div class="field">
+                                <div class="control">
+
+                                    
+                                    {{ form.password(class="input is-medium", placeholder='Password') }}
+                                </div>
+
+                            </div>
+                            <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
+                            {{ form.submit(class='button is-link is-fullwidth') }}
+
+                        </form>
+                    </div>
+                    <p class="has-text-grey">
+                        <a href="{{ url_for('auth.sign_up') }}">Sign Up</a> &nbsp;·&nbsp;
+                        <a href="/">Need Help?</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

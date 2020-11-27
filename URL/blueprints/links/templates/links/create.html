@@ -1,0 +1,76 @@
+{% extends 'general/base.html' %}
+
+
+{% block tab_title %}
+Create link
+{% endblock tab_title %}
+
+
+{% block main %}
+<div class="section">
+    <div class="columns">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <div class="has-text-centered">
+                <h1 class="title">Create a new link</h1>
+            </div>
+            <form method="post">
+                <div class="field">
+                    <div class="control">
+                        {% if form.errors %}
+                        <ul class="errors">
+                            {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                            {% for error in field_errors %}
+                            <li>{{ form[field_name].label }}: {{ error }}</li>
+                            {% endfor %}
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        {% if errors %}
+                        {% for error in errors %}
+                        <div class="notification is-warning">
+                            <button class="delete"></button>
+                            {{error}}
+                        </div>
+                        {% endfor %}
+
+                        {% endif %}
+                    </div>
+                </div>
+
+                {{ form.csrf_token }}
+
+
+                <div class="field">
+                    <div class="control">
+
+
+                        {{ form.name(class="input is-medium", placeholder="Name") }}
+                    </div>
+
+                </div>
+                <div class="field">
+                    <div class="control">
+
+
+                        {{ form.base(class="input is-medium", placeholder="URL") }}
+                    </div>
+
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <div class="select">
+
+                            {{ form.collections }}
+                        </div>
+                    </div>
+
+                </div>
+
+                <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
+                {{ form.submit(class='button is-link') }}
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock main %}
