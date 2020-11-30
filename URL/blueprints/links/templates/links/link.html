@@ -12,22 +12,47 @@ Link {{ link.name }}
 
 {% block main %}
 <section class="section">
-    <h1 class='title'>
-        {{ link.name }}
-    </h1>
-    <p id='link_id' style="display: hidden;">
-        {{link.id}}
+    <div class="level has-text-centered">
+        <div class="level-right">
+            <div class="level-item">
+                <p class='title'>{{ link.name }}</p>
+            </div>
+
+
+        </div>
+
+        <div class="level-item">
+            <div class="div">
+                <p class='heading'>Collection</p>
+                <span class='tag'>
+                    <p class='title is-4'>{{ link.collection.name | title }}</p>
+                </span>
+            </div>
+        </div>
+        <div class="level-left">
+            <div class="level-item">
+                <h2 class='subtitle'>
+                    Redirect to : <span class="tag"><a href="{{ link.base }}">{{ link.base }}</a></span>
+                </h2>
+            </div>
+
+        </div>
+    </div>
+    <p class="block">
+        Number of hits : {{ link.hits | length }}
     </p>
-    <h2 class='subtitle'>
-        Redirect to : {{ link.base }}
-    </h2>
+
+
+
 </section>
 <section class='section'>
     <!-- <canvas  width="400" height="400"></canvas> -->
     <div id="myChart"></div>
 </section>
 
-
+<p id='link_id' style="display: none;">
+    {{link.id}}
+</p>
 
 <script>
 

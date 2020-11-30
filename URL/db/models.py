@@ -29,6 +29,9 @@ class Hit(db.Model):
     date = db.Column(
         db.String, nullable=False, default=datetime.datetime.utcnow().isoformat()
     )
+    ip = db.Column(
+        db.String, nullable=False, default=''
+    )
 
     link_id = db.Column(db.Integer, db.ForeignKey("links.id"), nullable=False)
 

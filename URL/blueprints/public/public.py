@@ -1,4 +1,4 @@
-from URL.db import models
+from URL.db import models, db
 from flask import Blueprint, request, redirect, url_for, render_template
 
 
@@ -18,10 +18,15 @@ def about():
 
 @public_bp.route("/r/<string:shorten>/")
 def redirection(shorten):
-    print("shorten",shorten)
     link = models.Link.query.filter_by(shorten=shorten).first()
-    print('link', link)
     base = link.base
-    a=1
+    ip_address = request.remote_addr
+    hit = models.Hit(ip=ip_address)
+    db.session.add(hit)
+    db.session.commit()
+    ##
+    #IP address is saved for later. The location can be deduced with it.
+    ##
+    
 
     return redirect(base)

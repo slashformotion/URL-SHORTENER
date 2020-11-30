@@ -21,7 +21,7 @@ def link_infos():
                 "name": link.name,
                 "hits": [
                     [
-                        datetime.datetime.fromisoformat(dat).strftime("%Y-%m-%d")
+                        datetime.datetime.fromisoformat(dat)
                         for dat in link.hits_frame.keys()
                     ],
                     list(link.hits_frame.values()),
