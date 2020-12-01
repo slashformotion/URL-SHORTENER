@@ -20,6 +20,26 @@ Que ce soit pour tracker le nombre de clicks sur un lien ou juste pour obtenir u
 
 > Individual link page
 
+## Built With
+
+- [Flask](https://flask.palletsprojects.com/en/1.1.x/) *Back end framework*
+- [SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/) *Database management* 
+- [bcrypt](https://pypi.org/project/bcrypt/) *password encryption*
+
+flask addons:
+
+- Flask-Admin
+- Flask-BabelEx
+- Flask-Bcrypt
+- Flask-Login
+- Flask-Mail
+- Flask-Security
+- Flask-SQLAlchemy
+- Flask-WTF
+
+## Authors
+
+- Myself
 
 <!-- ## Getting Started
 
